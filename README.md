@@ -12,3 +12,7 @@ Processo para primeiro push no repositório git-code-education
 6)git commit -m "primeira alteracao de arquivo readme"
 7)git remote add origin https://github.com/rcadecaro/git-code-education.git
 8)git push origin master
+
+Lista de Funcionalidades
+Versão 0.1.0
+Inclusão do metodo sayHello();
