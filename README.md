@@ -1,5 +1,9 @@
+Editor Markdown
+http://rcadecaro.github.io/git-code-education/
+
 Processo para primeiro push no repositório git-code-education
-mkdir git-code-education
+
+0)mkdir git-code-education
 1)cd git-code-education
 2)touch README.md
 3)git init
