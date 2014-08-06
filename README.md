@@ -14,5 +14,11 @@ Processo para primeiro push no repositório git-code-education
 8)git push origin master
 
 Lista de Funcionalidades
+
 Versão 0.1.0
-Inclusão do metodo sayHello();
+
+Inclusão do método sayHello();
+
+Versão 0.1.1
+
+Correção de exibição do método sayHello();
