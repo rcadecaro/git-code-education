@@ -9,7 +9,8 @@ $project = new ProjectInfo;
  * @return   array   nome da seção e path para include
  *
  */
-function routeFinder($baseUrl = "git-code-education"){
+function routeFinder($baseUrl = ''){
+
 	$rotas =[
 		"index.php"=>"index",
 		"contato"=>"contato",
@@ -34,7 +35,7 @@ function routeFinder($baseUrl = "git-code-education"){
 	}
 	
 }
-$section = routeFinder();
+$section = routeFinder(basename(__DIR__));
 ?>
 <!DOCTYPE html>
 <html lang="en">
