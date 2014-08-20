@@ -19,8 +19,14 @@ function routeFinder($baseUrl = ''){
 		"servicos"=>"servicos"
 	];
 	$rota = parse_url("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+	$posBaseUrl = strpos($rota['path'], $baseUrl);
+	if($posBaseUrl){
+		$pageRequest = (String)substr(trim($rota['path'],"/"), $posBaseUrl + strlen($baseUrl));
 
-	$pageRequest = (String)substr(trim($rota['path'],"/"), strlen($baseUrl)+1);
+	}else{
+		$pageRequest = (String)trim($rota['path'],"/");
+	}
+
 	if ($pageRequest){
 		$pageRequest= explode("/", $pageRequest);
 		
