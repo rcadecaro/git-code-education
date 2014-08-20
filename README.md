@@ -14,6 +14,14 @@ Processo para primeiro push no repositório git-code-education
 8)git push origin master
 
 Lista de Funcionalidades
+Versão 0.1.4
+
+CRIAÇÃO DE UM MECANISMO PARA GERENCIAR AS ROTAS DA APLICAÇÃO;
+
+Versão 0.1.3
+
+UTILIZACAO DO BOOTSTRAP COMO BASE DE DESENVOLVIMENTO DAS PÁGINAS;
+
 Versão 0.1.2
 
 Correção de retorno de versão através de método getVersion();

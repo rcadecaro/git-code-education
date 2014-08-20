@@ -1,17 +1,40 @@
 <?php
 require_once("./includes/ProjectInfo.class.php");
 $project = new ProjectInfo;
-$section = 'index';
-$path = dirname(__FILE__) . '/includes/pages/'.$section.'.inc.php';
+/**
+ *
+ * routeFinder: define a rota da aplicação
+ *
+ * @param    string  $baseUrl path da pasta da aplicacao
+ * @return   array   nome da seção e path para include
+ *
+ */
+function routeFinder($baseUrl = "git-code-education"){
+	$rotas =[
+		"index.php"=>"index",
+		"contato"=>"contato",
+		"empresa"=>"empresa",
+		"produtos"=>"produtos",
+		"servicos"=>"servicos"
+	];
+	$rota = parse_url("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
 
-if (isset($_GET["section"]) && !empty($_GET["section"])) {
-	$section = filter_var($_GET["section"], FILTER_SANITIZE_STRING);
-	$path = dirname(__FILE__) . '/includes/pages/'.$section.'.inc.php';
-	if (!realpath($path)) {
-	    $path = dirname(__FILE__) . '/includes/pages/404.inc.php';
-	}	
+	$pageRequest = (String)substr(trim($rota['path'],"/"), strlen($baseUrl)+1);
+	if ($pageRequest){
+		$pageRequest= explode("/", $pageRequest);
+		
+		if (isset($rotas[$pageRequest[0]]) && realpath(dirname(__FILE__) . '/includes/pages/'.$rotas[$pageRequest[0]].'.inc.php')){
+			return ['name'=> $rotas[$pageRequest[0]], 'path' => dirname(__FILE__) . '/includes/pages/'.$rotas[$pageRequest[0]].'.inc.php'];
+		}else{
+			header("HTTP/1.0 404 Not Found");
+			return ['name'=> "404", 'path' => dirname(__FILE__) . '/includes/pages/404.inc.php'];
+		}
+	}else{
+		return ['name'=> "index", 'path' => dirname(__FILE__) . '/includes/pages/index.inc.php'];;
+	}
+	
 }
-
+$section = routeFinder();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +51,10 @@ if (isset($_GET["section"]) && !empty($_GET["section"])) {
 	<!--append ‘#!watch’ to the browser URL, then refresh the page. -->
 	
 	<link href="css/bootstrap.min.css" rel="stylesheet">
+	
+	<!--
 	<link href="css/style.css" rel="stylesheet">
+	-->	
 
   <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
@@ -44,7 +70,9 @@ if (isset($_GET["section"]) && !empty($_GET["section"])) {
   
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<!--
 	<script type="text/javascript" src="js/scripts.js"></script>
+	-->
 </head>
 
 <body>
@@ -57,20 +85,20 @@ if (isset($_GET["section"]) && !empty($_GET["section"])) {
 			<nav class="navbar navbar-default" role="navigation">
 				
 				<ul class="nav navbar-nav">
-					<li class="<?php echo ($section=='index')?'active':''?>">
-						<a href="index.php">Home</a>
+					<li class="<?php echo ($section['name']=='index')?'active':''?>">
+						<a href="./">Home</a>
 					</li>
-					<li class="<?php echo ($section=='empresa')?'active':''?>">
-						<a href="index.php?section=empresa">Empresa</a>
+					<li class="<?php echo ($section['name']=='empresa')?'active':''?>">
+						<a href="./empresa">Empresa</a>
 					</li>
-					<li class="<?php echo ($section=='produtos')?'active':''?>">
-						<a href="index.php?section=produtos">Produtos</a>
+					<li class="<?php echo ($section['name']=='produtos')?'active':''?>">
+						<a href="./produtos">Produtos</a>
 					</li>
-					<li class="<?php echo ($section=='servicos')?'active':''?>">
-						<a href="index.php?section=servicos">Serviços</a>
+					<li class="<?php echo ($section['name']=='servicos')?'active':''?>">
+						<a href="./servicos">Serviços</a>
 					</li>
-					<li class="<?php echo ($section=='contato')?'active':''?>">
-						<a href="index.php?section=contato">Contato</a>
+					<li class="<?php echo ($section['name']=='contato')?'active':''?>">
+						<a href="./contato">Contato</a>
 					</li>
 				
 				
@@ -79,7 +107,7 @@ if (isset($_GET["section"]) && !empty($_GET["section"])) {
 			</nav>
 		</div>
 	</div>
-<?php include_once($path);?>
+<?php include_once($section['path']);?>
 	<div class="row clearfix">
 		<div class="col-md-12 column">
 

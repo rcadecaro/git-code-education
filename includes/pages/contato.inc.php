@@ -23,7 +23,7 @@ if (isset($_POST["nome"]) && isset($_POST["email"]) && isset($_POST["assunto"]) 
 				</h4> 
 			</div>
 			<?php }?>			
-			<form role="form" action='index.php?section=contato' method="post">
+			<form role="form" action='contato' method="post">
 				<div class="form-group">
 					 <label for="nome">Nome</label><input autocomplete="off"class="form-control" name="nome" id="nome" type="text" value="<?php echo($nome);?>">
 				</div>
