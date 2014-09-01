@@ -24,8 +24,8 @@ class Database {
     }
     public function searchPages($needle='') {
         
-        $sql = "Select route, content from pages where content like '%:needle%'";
-        $stmt = $this->prepare($sql);
+        $sql = "Select name, route from pages where content like CONCAT('%',:needle, '%')";
+        $stmt = $this->conexao->prepare($sql);
         $stmt->bindValue("needle", $needle);
         $stmt->execute();
         $res = $stmt->fetchAll(PDO::FETCH_ASSOC);

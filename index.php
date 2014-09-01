@@ -25,7 +25,8 @@ function routeFinder($baseUrl = ''){
 		"contato"=>"contato",
 		"empresa"=>"empresa",
 		"produtos"=>"produtos",
-		"servicos"=>"servicos"
+		"servicos"=>"servicos",
+		"buscar"=>"buscar"
 	];
 	$rota = parse_url("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
 	//tratamento de baseurl
@@ -135,7 +136,11 @@ $section = routeFinder(basename(__DIR__));
 				
 				
 				</ul>
-				
+                <form action="buscar" method="get" class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                        <input name="needle" class="form-control" type="text">
+                    </div> <button type="submit" class="btn btn-default">Buscar</button>
+                </form>				
 			</nav>
 		</div>
 	</div>
