@@ -1,5 +1,6 @@
 <?php
 require_once("./includes/ProjectInfo.class.php");
+require_once("./includes/Database.class.php");
 $project = new ProjectInfo;
 /**
  *
@@ -10,34 +11,58 @@ $project = new ProjectInfo;
  *
  */
 function routeFinder($baseUrl = ''){
-
+    //conexão com o banco de dados
+    try {
+        $database = new Database;
+    } catch (Exception $exc) {
+        die($exc->getTraceAsString());
+    }
+	
+	//rotas do sistema
 	$rotas =[
 		"index.php"=>"index",
+		"index"=>"index",
 		"contato"=>"contato",
 		"empresa"=>"empresa",
 		"produtos"=>"produtos",
 		"servicos"=>"servicos"
 	];
 	$rota = parse_url("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
-	$posBaseUrl = strpos($rota['path'], $baseUrl);
+	//tratamento de baseurl
+    $posBaseUrl = strpos($rota['path'], $baseUrl);
 	if($posBaseUrl){
 		$pageRequest = (String)substr(trim($rota['path'],"/"), $posBaseUrl + strlen($baseUrl));
 
 	}else{
 		$pageRequest = (String)trim($rota['path'],"/");
 	}
-
+    //busca do conteudo do arquuivo: esta misto entre arquivos fisicos(404 e contato) e conteudo guardado em banco.
 	if ($pageRequest){
 		$pageRequest= explode("/", $pageRequest);
-		
-		if (isset($rotas[$pageRequest[0]]) && realpath(dirname(__FILE__) . '/includes/pages/'.$rotas[$pageRequest[0]].'.inc.php')){
-			return ['name'=> $rotas[$pageRequest[0]], 'path' => dirname(__FILE__) . '/includes/pages/'.$rotas[$pageRequest[0]].'.inc.php'];
+        $pagina='';
+        if (isset($rotas[$pageRequest[0]])){
+            $pagina = $rotas[$pageRequest[0]];
+        }else{
+            $pagina ='404';
+        }
+        $conteudo = $database->getPage($pagina);
+		if($conteudo){
+            return ['name'=> $pagina, 'content' => $conteudo['content']];
+		}elseif (realpath(dirname(__FILE__) . '/includes/pages/'.$pagina.'.inc.php')){
+            $conteudo = include(dirname(__FILE__) . '/includes/pages/'.$pagina.'.inc.php');
+            return ['name'=> $pagina, 'content' => $conteudo];
 		}else{
 			header("HTTP/1.0 404 Not Found");
-			return ['name'=> "404", 'path' => dirname(__FILE__) . '/includes/pages/404.inc.php'];
+			return ['name'=> "404", 'content' => include(dirname(__FILE__) . '/includes/pages/404.inc.php')];
 		}
 	}else{
-		return ['name'=> "index", 'path' => dirname(__FILE__) . '/includes/pages/index.inc.php'];;
+        $conteudo = $database->getPage('index');
+        if($conteudo){
+            return ['name'=> "index", 'content' => $conteudo['content']];;
+        }else{
+            return ['name'=> "index", 'content' => include(dirname(__FILE__) . '/includes/pages/404.inc.php')];;
+        }
+		
 	}
 	
 }
@@ -114,7 +139,7 @@ $section = routeFinder(basename(__DIR__));
 			</nav>
 		</div>
 	</div>
-<?php include_once($section['path']);?>
+<?php echo ($section['content']);?>
 	<div class="row clearfix">
 		<div class="col-md-12 column">
 

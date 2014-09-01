@@ -14,6 +14,12 @@ Processo para primeiro push no repositório git-code-education
 8)git push origin master
 
 Lista de Funcionalidades
+Versão 0.1.5
+
+CONTEÚDO GUARDADO EM BANCO DE DADOS;
+É NECESSÁRIO CRIAR UM BANCO DE DADOS COM NOME "pdo" E subir o dump localizado em "/sql/pdo.sql".
+O ARQUIVO DE CONFIGURAÇÃO DE ACESSO ESTÁ LOCALIZADO EM "/includes/db_config.php" .
+
 Versão 0.1.4
 
 CRIAÇÃO DE UM MECANISMO PARA GERENCIAR AS ROTAS DA APLICAÇÃO;
