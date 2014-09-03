@@ -14,6 +14,12 @@ Processo para primeiro push no repositório git-code-education
 8)git push origin master
 
 Lista de Funcionalidades
+Versão 0.1.6
+
+CONTEÚDO GUARDADO EM BANCO DE DADOS;
+Implementação de fixtures.
+O ARQUIVO DE CONFIGURAÇÃO DE ACESSO ESTÁ LOCALIZADO EM "/includes/db_config.php" .
+
 Versão 0.1.5
 
 CONTEÚDO GUARDADO EM BANCO DE DADOS;
